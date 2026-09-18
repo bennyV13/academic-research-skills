@@ -1,0 +1,16 @@
+{
+  "write-scope-guard": {
+    "PreToolUse": [
+      {
+        "matcher": "write_to_file|replace_file_content|run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./hooks/run_guard_agy.sh",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,12 +1,12 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-18T17:30:00+03:00",
+  "last_updated": "2026-09-18T17:35:00+03:00",
   "summary": {
-    "total": 30,
-    "pending": 9,
+    "total": 31,
+    "pending": 7,
     "in_progress": 0,
     "adapted": 0,
-    "validated": 21
+    "validated": 24
   },
   "assets": [
     {
@@ -203,18 +203,27 @@
       "category": "hook",
       "source_path": "hooks/hooks.json",
       "target_path": ".agents/plugins/academic-research-skills/hooks.json",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "05",
-      "notes": "PreToolUse write-scope guard configuration"
+      "notes": "PreToolUse write-scope guard configuration with named hook groups"
     },
     {
       "id": "hooks-guard-launcher",
       "category": "hook",
       "source_path": "hooks/run_guard.sh",
       "target_path": ".agents/plugins/academic-research-skills/hooks/run_guard_agy.sh",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "05",
       "notes": "AGY-compatible stdin/stdout wrapper for ars_write_scope_guard"
+    },
+    {
+      "id": "hooks-guard-adapter",
+      "category": "tool",
+      "source_path": "scripts/ars_write_scope_guard.py",
+      "target_path": ".agents/plugins/academic-research-skills/scripts/ars_write_scope_guard_agy.py",
+      "status": "VALIDATED",
+      "ticket": "05",
+      "notes": "AGY protojson write-scope guard adapter"
     },
     {
       "id": "academic-pipeline-skill",
