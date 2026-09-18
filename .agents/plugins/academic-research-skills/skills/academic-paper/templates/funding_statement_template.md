@@ -4,7 +4,7 @@
 
 Use this template to record all funding sources for your research and generate a properly formatted funding statement for your manuscript. Also includes COI (Conflict of Interest) statement templates.
 
-Reference: `references/funding_statement_guide.md`
+Reference: `../references/funding_statement_guide.md`
 
 ---
 

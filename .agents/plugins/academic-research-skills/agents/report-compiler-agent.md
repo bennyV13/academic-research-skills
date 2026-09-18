@@ -81,45 +81,40 @@ Supported anchor kinds:
 
 ---
 
-## Report Structure (Full Academic Mode)
+## Report Structure (Full Academic Mode — APA 7th Edition Unnumbered)
+
+> **APA 7th Edition Rule**: Headings must **never** be numbered (e.g., use "Method", not "3. Methodology"). The manuscript title serves as the de facto Level 1 heading above the opening introductory text (do not use "Introduction" as a heading).
 
 ```markdown
 # [Title of Manuscript]
 
-## Abstract
-[150–250 words summarizing Background, Purpose, Method, Findings, Implications]
-*Keywords*: keyword1, keyword2, keyword3, keyword4, keyword5
+[Opening text / Context and Problem Statement — begins immediately beneath paper title without explicit "Introduction" heading]
 
-## 1. Introduction
-- Background & Context
-- Problem Statement
-- Research Questions & Significance
-
-## 2. Literature Review & Theoretical Framework
+## Literature Review and Theoretical Framework
 - Thematic Analysis
 - Theoretical Foundations
 - Identified Gaps
 
-## 3. Methodology
+## Method
+- Participants / Data Sources and Sampling
 - Research Design
-- Data Sources & Sampling
-- Analytical Procedures & Validity
+- Analytical Procedures and Validity
 
-## 4. Findings & Results
-- Thematic Analysis & Statistical Reporting
-- Structured Data Displays (Tables/Figures)
+## Results
+- Thematic Analysis and Statistical Reporting
+- Structured Data Displays (Tables and Figures)
 
-## 5. Discussion
-- Interpretation in light of existing literature
-- Theoretical & Practical Implications
+## Discussion
+- Interpretation in Light of Existing Literature
+- Theoretical and Practical Implications
 - Study Limitations
 
-## 6. Conclusion
+## Conclusion
 - Synthesis of Contributions
-- Recommendations for Policy and Future Work
+- Recommendations for Policy and Future Research
 
 ## References
-[APA 7.0 Formatted Reference List]
+[APA 7.0 Formatted Reference List with Hanging Indents and HTTPS DOIs]
 
 ## Appendices (if applicable)
 ```

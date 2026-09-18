@@ -21,7 +21,7 @@ A general-purpose academic paper writing tool — 12-agent pipeline covering all
 - **Style Calibration** (intake Step 10, optional) — Provide 3+ past papers and the pipeline learns your writing voice (sentence rhythm, vocabulary preferences, citation integration style). Applied as a soft guide during drafting; discipline conventions always take priority. See `shared/style_calibration_protocol.md`.
 - **Writing Quality Check** (`references/writing_quality_check.md`) — Context-sensitive writing diagnostics applied during the draft self-review step: vague or overused terms, punctuation that interrupts the argument, throat-clearing openers, paragraph and sentence shapes that impair clarity. Prompts for judgment subordinate to author and venue requirements, not quotas (#825).
 
-> **Routing discipline (v3.9.2):** see `.agents/plugins/academic-research-skills/rules/AGENTS.md` "Routing Discipline" + `references/intent_clarification_protocol.md` for cross-skill routing rules. This skill assumes routing has already settled — ambiguous cross-phase materials should have been clarified upstream.
+> **Routing discipline (v3.9.2):** see `.agents/plugins/academic-research-skills/rules/AGENTS.md` "Routing Discipline" + `../../../../../shared/references/intent_clarification_protocol.md` for cross-skill routing rules. This skill assumes routing has already settled — ambiguous cross-phase materials should have been clarified upstream.
 
 ## Quick Start
 
@@ -184,7 +184,7 @@ In Mode B, **single-phase agents (Bucket A per `docs/design/2026-05-18-ars-v3.9.
 
 Multi-phase agents (Bucket B: `argument_builder` P3+Plan, `visualization` P4+P7) do exactly the work specified by the caller's invocation for that phase — no extension to other phases in the same call. The v3.6.6 generator-evaluator contract below additionally constrains `draft_writer` and `peer_reviewer` sub-phase behavior (Phase 4a/4b, Phase 6a/6b).
 
-Routing into Mode B requires explicit user signal — `/ars-<mode>` slash command or `[direct-mode]` prefix. Ambiguous cross-phase input defaults to clarification per `.agents/plugins/academic-research-skills/rules/AGENTS.md` Routing Discipline + `references/intent_clarification_protocol.md`.
+Routing into Mode B requires explicit user signal — `/ars-<mode>` slash command or `[direct-mode]` prefix. Ambiguous cross-phase input defaults to clarification per `.agents/plugins/academic-research-skills/rules/AGENTS.md` Routing Discipline + `../../../../../shared/references/intent_clarification_protocol.md`.
 
 **Enforcement (v3.9.2):** Phase Boundary blocks on Bucket A agents + advisory verifier (`scripts/check_pipeline_integrity.py`) + a deterministic PreToolUse write-scope guard in hook-enabled runtimes (#134 rescope, PR #294). Multi-phase envelope remains forward-scope (#134 Slices 3-5).
 
@@ -501,7 +501,7 @@ Explicit prohibitions to prevent common failure modes:
 
 ## Output Language
 
-Follows the user's language. Academic terminology is kept in English. The bilingual abstract follows the declared output language pair (`output_language_pair`) — nothing more. The pair selects the two abstract languages; it is not a body-language setting and not an abstract-cardinality setting (Bilingual / EN-only / zh-TW-only is a separate intake answer). The default entry `zh-tw-en` is Traditional Chinese (L1) + English (L2) — the pre-#862 pair, so a run that omits the field reproduces the legacy object keys and the legacy heading literals and omits the serialized key. Registry and language roles: [`shared/output_language_pair.md`](../shared/output_language_pair.md). Abstract length and keyword counts: the regime table in [`references/abstract_writing_guide.md`](references/abstract_writing_guide.md).
+Follows the user's language. Academic terminology is kept in English. The bilingual abstract follows the declared output language pair (`output_language_pair`) — nothing more. The pair selects the two abstract languages; it is not a body-language setting and not an abstract-cardinality setting (Bilingual / EN-only / zh-TW-only is a separate intake answer). The default entry `zh-tw-en` is Traditional Chinese (L1) + English (L2) — the pre-#862 pair, so a run that omits the field reproduces the legacy object keys and the legacy heading literals and omits the serialized key. Registry and language roles: [`shared/output_language_pair.md`](../../../../../shared/output_language_pair.md). Abstract length and keyword counts: the regime table in [`references/abstract_writing_guide.md`](references/abstract_writing_guide.md).
 
 ---
 

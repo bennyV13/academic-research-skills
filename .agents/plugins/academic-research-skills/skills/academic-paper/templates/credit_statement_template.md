@@ -4,7 +4,7 @@
 
 Use this template to record author contributions using the CRediT (Contributor Roles Taxonomy) framework. Fill in the contribution matrix, then use the output format to generate the CRediT statement for your manuscript.
 
-Reference: `references/credit_authorship_guide.md`
+Reference: `../references/credit_authorship_guide.md`
 
 ---
 

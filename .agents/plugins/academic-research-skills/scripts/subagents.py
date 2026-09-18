@@ -17,8 +17,8 @@ def load_agent_spec(filename: str) -> tuple[Dict[str, Any], str]:
     target_path = (AGENTS_DIR / filename).resolve()
     if not target_path.is_relative_to(AGENTS_DIR):
         raise ValueError(f"Access denied: path '{filename}' escapes agents directory.")
-    if not target_path.exists():
-        raise FileNotFoundError(f"Agent definition '{filename}' not found at {target_path}")
+    if not target_path.exists() or not target_path.is_file():
+        raise FileNotFoundError(f"Agent definition '{filename}' not found or is not a regular file at {target_path}")
 
     content = target_path.read_text(encoding="utf-8")
     match = re.split(r"^---\s*$", content, maxsplit=2, flags=re.MULTILINE)
@@ -52,9 +52,9 @@ def get_synthesis_subagent_def() -> Dict[str, Any]:
             "Integrates findings across sources, resolves evidence conflicts, and maps knowledge gaps",
         ),
         "system_prompt": prompt,
-        "enable_write_tools": True,
-        "enable_subagent_tools": False,
-        "enable_mcp_tools": False,
+        "enable_write_tools": meta.get("enable_write_tools", "true").lower() == "true",
+        "enable_subagent_tools": meta.get("enable_subagent_tools", "false").lower() == "true",
+        "enable_mcp_tools": meta.get("enable_mcp_tools", "false").lower() == "true",
     }
 
 
@@ -80,9 +80,9 @@ def get_report_compiler_subagent_def() -> Dict[str, Any]:
             "Transforms research findings and section plans into polished APA 7.0 academic manuscripts and reports",
         ),
         "system_prompt": prompt,
-        "enable_write_tools": True,
-        "enable_subagent_tools": False,
-        "enable_mcp_tools": False,
+        "enable_write_tools": meta.get("enable_write_tools", "true").lower() == "true",
+        "enable_subagent_tools": meta.get("enable_subagent_tools", "false").lower() == "true",
+        "enable_mcp_tools": meta.get("enable_mcp_tools", "false").lower() == "true",
     }
 
 
