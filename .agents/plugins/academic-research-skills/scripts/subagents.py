@@ -193,3 +193,32 @@ def get_revision_coach_subagent_invocation(prompt: str, model: str = "inherit") 
     }
 
 
+def get_research_architect_subagent_def() -> Dict[str, Any]:
+    """Return dictionary matching define_subagent parameters for research-architect-agent."""
+    meta, prompt = load_agent_spec("research-architect-agent.md")
+    return {
+        "name": meta.get("name", "research-architect-agent"),
+        "description": meta.get(
+            "description",
+            "Designs the methodological blueprint; selects research paradigm, method, data strategy, and analytical framework",
+        ),
+        "system_prompt": prompt,
+        "enable_write_tools": parse_bool_meta(meta, "enable_write_tools", default=True),
+        "enable_subagent_tools": parse_bool_meta(meta, "enable_subagent_tools", default=False),
+        "enable_mcp_tools": parse_bool_meta(meta, "enable_mcp_tools", default=False),
+    }
+
+
+def get_research_architect_subagent_invocation(prompt: str, model: str = "inherit") -> Dict[str, Any]:
+    """Return invocation dictionary for invoke_subagent with isolated workspace."""
+    meta, _ = load_agent_spec("research-architect-agent.md")
+    return {
+        "TypeName": meta.get("name", "research-architect-agent"),
+        "Role": "Research Methodology Architect",
+        "Prompt": prompt,
+        "Model": model,
+        "Workspace": "branch",
+    }
+
+
+

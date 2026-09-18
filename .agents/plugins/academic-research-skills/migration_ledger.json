@@ -1,12 +1,12 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-18T17:35:00+03:00",
+  "last_updated": "2026-09-18T15:14:54.439679+00:00",
   "summary": {
     "total": 31,
-    "pending": 7,
+    "pending": 0,
     "in_progress": 0,
     "adapted": 0,
-    "validated": 24
+    "validated": 31
   },
   "assets": [
     {
@@ -230,7 +230,7 @@
       "category": "skill",
       "source_path": "academic-pipeline/SKILL.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/academic-pipeline/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "06",
       "notes": "Full pipeline orchestrator and integrity checkpoints"
     },
@@ -238,8 +238,8 @@
       "id": "research-architect-agent",
       "category": "agent",
       "source_path": "agents/research_architect_agent.md",
-      "target_path": ".agents/plugins/academic-research-skills/agents/research_architect_agent.md",
-      "status": "PENDING",
+      "target_path": ".agents/plugins/academic-research-skills/agents/research-architect-agent.md",
+      "status": "VALIDATED",
       "ticket": "06",
       "notes": "Research architect coordinating multi-stage pipeline"
     },
@@ -248,7 +248,7 @@
       "category": "command",
       "source_path": "commands/ars-full.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-full/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "06",
       "notes": "Full end-to-end research-to-publication pipeline trigger"
     },
@@ -257,7 +257,7 @@
       "category": "command",
       "source_path": "commands/ars-3w.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-3w/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "06",
       "notes": "Who/What/Why research scope framing"
     },
@@ -266,7 +266,7 @@
       "category": "command",
       "source_path": "commands/ars-disclosure.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-disclosure/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "06",
       "notes": "AI disclosure generator for venue submissions"
     },
@@ -275,7 +275,7 @@
       "category": "command",
       "source_path": "commands/ars-citation-check.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-citation-check/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "06",
       "notes": "Deterministic citation verification gate"
     },
@@ -284,7 +284,7 @@
       "category": "rule",
       "source_path": ".claude/CLAUDE.md",
       "target_path": ".agents/plugins/academic-research-skills/rules/AGENTS.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "06",
       "notes": "Consolidated workspace guidelines and pipeline invariants"
     }
