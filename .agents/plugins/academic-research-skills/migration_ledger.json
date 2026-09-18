@@ -1,0 +1,247 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-09-18T15:35:00+03:00",
+  "summary": {
+    "total": 26,
+    "pending": 24,
+    "in_progress": 0,
+    "adapted": 0,
+    "validated": 2
+  },
+  "assets": [
+    {
+      "id": "foundation-scaffold",
+      "category": "scaffold",
+      "source_path": ".claude-plugin/plugin.json",
+      "target_path": ".agents/plugins/academic-research-skills/plugin.json",
+      "status": "VALIDATED",
+      "ticket": "01",
+      "notes": "Target AGY plugin directory structure and plugin.json created"
+    },
+    {
+      "id": "compatibility-verifier",
+      "category": "tool",
+      "source_path": "N/A",
+      "target_path": "scripts/verify_agy_compatibility.py",
+      "status": "VALIDATED",
+      "ticket": "01",
+      "notes": "Linter enforcing AGY YAML frontmatter, tool references, single-line commands, and hook contracts"
+    },
+    {
+      "id": "deep-research-skill",
+      "category": "skill",
+      "source_path": "deep-research/SKILL.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/deep-research/SKILL.md",
+      "status": "PENDING",
+      "ticket": "02",
+      "notes": "Literature search, citation verification, and research orchestration"
+    },
+    {
+      "id": "synthesis-agent",
+      "category": "agent",
+      "source_path": "agents/synthesis_agent.md",
+      "target_path": ".agents/plugins/academic-research-skills/agents/synthesis_agent.md",
+      "status": "PENDING",
+      "ticket": "02",
+      "notes": "Synthesis and evidence aggregation subagent definition"
+    },
+    {
+      "id": "cmd-ars-lit-review",
+      "category": "command",
+      "source_path": "commands/ars-lit-review.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-lit-review/SKILL.md",
+      "status": "PENDING",
+      "ticket": "02",
+      "notes": "Literature review entry point"
+    },
+    {
+      "id": "cmd-ars-cache-invalidate",
+      "category": "command",
+      "source_path": "commands/ars-cache-invalidate.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-cache-invalidate/SKILL.md",
+      "status": "PENDING",
+      "ticket": "02",
+      "notes": "Research cache invalidation entry point"
+    },
+    {
+      "id": "academic-paper-skill",
+      "category": "skill",
+      "source_path": "academic-paper/SKILL.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/academic-paper/SKILL.md",
+      "status": "PENDING",
+      "ticket": "03",
+      "notes": "Socratic paper planning, drafting, and APA 7.0 formatting"
+    },
+    {
+      "id": "report-compiler-agent",
+      "category": "agent",
+      "source_path": "agents/report_compiler_agent.md",
+      "target_path": ".agents/plugins/academic-research-skills/agents/report_compiler_agent.md",
+      "status": "PENDING",
+      "ticket": "03",
+      "notes": "Academic report drafting and section compiler subagent"
+    },
+    {
+      "id": "cmd-ars-plan",
+      "category": "command",
+      "source_path": "commands/ars-plan.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-plan/SKILL.md",
+      "status": "PENDING",
+      "ticket": "03",
+      "notes": "Socratic chapter-by-chapter paper planning"
+    },
+    {
+      "id": "cmd-ars-outline",
+      "category": "command",
+      "source_path": "commands/ars-outline.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-outline/SKILL.md",
+      "status": "PENDING",
+      "ticket": "03",
+      "notes": "Paper outline generator"
+    },
+    {
+      "id": "cmd-ars-abstract",
+      "category": "command",
+      "source_path": "commands/ars-abstract.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-abstract/SKILL.md",
+      "status": "PENDING",
+      "ticket": "03",
+      "notes": "Academic abstract generator"
+    },
+    {
+      "id": "cmd-ars-format-convert",
+      "category": "command",
+      "source_path": "commands/ars-format-convert.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-format-convert/SKILL.md",
+      "status": "PENDING",
+      "ticket": "03",
+      "notes": "Markdown to APA DOCX / PDF format conversion"
+    },
+    {
+      "id": "academic-paper-reviewer-skill",
+      "category": "skill",
+      "source_path": "academic-paper-reviewer/SKILL.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/academic-paper-reviewer/SKILL.md",
+      "status": "PENDING",
+      "ticket": "04",
+      "notes": "Peer review panel, rubric evaluation, and rebuttal audit"
+    },
+    {
+      "id": "cmd-ars-reviewer",
+      "category": "command",
+      "source_path": "commands/ars-reviewer.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-reviewer/SKILL.md",
+      "status": "PENDING",
+      "ticket": "04",
+      "notes": "Simulated multi-reviewer panel execution"
+    },
+    {
+      "id": "cmd-ars-revision",
+      "category": "command",
+      "source_path": "commands/ars-revision.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-revision/SKILL.md",
+      "status": "PENDING",
+      "ticket": "04",
+      "notes": "Post-review revision plan generator"
+    },
+    {
+      "id": "cmd-ars-rebuttal-audit",
+      "category": "command",
+      "source_path": "commands/ars-rebuttal-audit.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-rebuttal-audit/SKILL.md",
+      "status": "PENDING",
+      "ticket": "04",
+      "notes": "Author rebuttal item-by-item consistency audit"
+    },
+    {
+      "id": "cmd-ars-revision-coach",
+      "category": "command",
+      "source_path": "commands/ars-revision-coach.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-revision-coach/SKILL.md",
+      "status": "PENDING",
+      "ticket": "04",
+      "notes": "Reviewer feedback revision coaching"
+    },
+    {
+      "id": "hooks-config",
+      "category": "hook",
+      "source_path": "hooks/hooks.json",
+      "target_path": ".agents/plugins/academic-research-skills/hooks.json",
+      "status": "PENDING",
+      "ticket": "05",
+      "notes": "PreToolUse write-scope guard configuration"
+    },
+    {
+      "id": "hooks-guard-launcher",
+      "category": "hook",
+      "source_path": "hooks/run_guard.sh",
+      "target_path": ".agents/plugins/academic-research-skills/hooks/run_guard_agy.sh",
+      "status": "PENDING",
+      "ticket": "05",
+      "notes": "AGY-compatible stdin/stdout wrapper for ars_write_scope_guard"
+    },
+    {
+      "id": "academic-pipeline-skill",
+      "category": "skill",
+      "source_path": "academic-pipeline/SKILL.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/academic-pipeline/SKILL.md",
+      "status": "PENDING",
+      "ticket": "06",
+      "notes": "Full pipeline orchestrator and integrity checkpoints"
+    },
+    {
+      "id": "research-architect-agent",
+      "category": "agent",
+      "source_path": "agents/research_architect_agent.md",
+      "target_path": ".agents/plugins/academic-research-skills/agents/research_architect_agent.md",
+      "status": "PENDING",
+      "ticket": "06",
+      "notes": "Research architect coordinating multi-stage pipeline"
+    },
+    {
+      "id": "cmd-ars-full",
+      "category": "command",
+      "source_path": "commands/ars-full.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-full/SKILL.md",
+      "status": "PENDING",
+      "ticket": "06",
+      "notes": "Full end-to-end research-to-publication pipeline trigger"
+    },
+    {
+      "id": "cmd-ars-3w",
+      "category": "command",
+      "source_path": "commands/ars-3w.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-3w/SKILL.md",
+      "status": "PENDING",
+      "ticket": "06",
+      "notes": "Who/What/Why research scope framing"
+    },
+    {
+      "id": "cmd-ars-disclosure",
+      "category": "command",
+      "source_path": "commands/ars-disclosure.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-disclosure/SKILL.md",
+      "status": "PENDING",
+      "ticket": "06",
+      "notes": "AI disclosure generator for venue submissions"
+    },
+    {
+      "id": "cmd-ars-citation-check",
+      "category": "command",
+      "source_path": "commands/ars-citation-check.md",
+      "target_path": ".agents/plugins/academic-research-skills/skills/ars-citation-check/SKILL.md",
+      "status": "PENDING",
+      "ticket": "06",
+      "notes": "Deterministic citation verification gate"
+    },
+    {
+      "id": "plugin-rules",
+      "category": "rule",
+      "source_path": ".claude/CLAUDE.md",
+      "target_path": ".agents/plugins/academic-research-skills/rules/AGENTS.md",
+      "status": "PENDING",
+      "ticket": "06",
+      "notes": "Consolidated workspace guidelines and pipeline invariants"
+    }
+  ]
+}
