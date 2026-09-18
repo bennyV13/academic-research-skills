@@ -3,10 +3,10 @@
   "last_updated": "2026-09-18T15:35:00+03:00",
   "summary": {
     "total": 26,
-    "pending": 24,
+    "pending": 20,
     "in_progress": 0,
     "adapted": 0,
-    "validated": 2
+    "validated": 6
   },
   "assets": [
     {
@@ -32,7 +32,7 @@
       "category": "skill",
       "source_path": "deep-research/SKILL.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/deep-research/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "02",
       "notes": "Literature search, citation verification, and research orchestration"
     },
@@ -40,8 +40,8 @@
       "id": "synthesis-agent",
       "category": "agent",
       "source_path": "agents/synthesis_agent.md",
-      "target_path": ".agents/plugins/academic-research-skills/agents/synthesis_agent.md",
-      "status": "PENDING",
+      "target_path": ".agents/plugins/academic-research-skills/agents/synthesis-agent.md",
+      "status": "VALIDATED",
       "ticket": "02",
       "notes": "Synthesis and evidence aggregation subagent definition"
     },
@@ -50,7 +50,7 @@
       "category": "command",
       "source_path": "commands/ars-lit-review.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-lit-review/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "02",
       "notes": "Literature review entry point"
     },
@@ -59,7 +59,7 @@
       "category": "command",
       "source_path": "commands/ars-cache-invalidate.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-cache-invalidate/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "02",
       "notes": "Research cache invalidation entry point"
     },

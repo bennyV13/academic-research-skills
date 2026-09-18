@@ -4,9 +4,9 @@
 
 **Blocked by:** 01 — Foundation Scaffold & Automated AGY Compatibility Harness
 
-**Status:** ready-for-agent
+**Status:** done
 
-- [ ] Deep research skill instructions are adapted for AGY CLI toolsets and single-line command executions.
-- [ ] Synthesis agent is defined as an Antigravity subagent with explicit role, model tier, and workspace isolation.
-- [ ] Literature review entry commands are converted into AGY-invocable workflows.
-- [ ] An end-to-end literature query executes successfully through the synthesis subagent and passes automated verification without Claude artifacts.
+- [x] Deep research skill instructions are adapted for AGY CLI toolsets and single-line command executions.
+- [x] Synthesis agent is defined as an Antigravity subagent with explicit role, model tier, and workspace isolation.
+- [x] Literature review entry commands are converted into AGY-invocable workflows.
+- [x] An end-to-end literature query executes successfully through the synthesis subagent and passes automated verification without Claude artifacts.

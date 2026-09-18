@@ -127,10 +127,12 @@ def check_frontmatter(path: Path, content: str) -> list[Diagnostic]:
             )
         return diags
 
+    is_primary_entry = (path.name == "SKILL.md" or path.parent.name == "agents")
+
     name = fm.get("name")
-    if not name or not isinstance(name, str):
+    if is_primary_entry and (not name or not isinstance(name, str)):
         diags.append(Diagnostic(path, 1, "ERROR", "Frontmatter missing required 'name' field"))
-    elif not KEBAB_CASE_PATTERN.match(name):
+    elif name and not KEBAB_CASE_PATTERN.match(name):
         diags.append(
             Diagnostic(
                 path,
@@ -141,9 +143,9 @@ def check_frontmatter(path: Path, content: str) -> list[Diagnostic]:
         )
 
     desc = fm.get("description")
-    if not desc or not isinstance(desc, str):
+    if is_primary_entry and (not desc or not isinstance(desc, str)):
         diags.append(Diagnostic(path, 1, "ERROR", "Frontmatter missing required 'description' field"))
-    elif len(desc.strip()) < 20:
+    elif desc and len(desc.strip()) < 20:
         diags.append(
             Diagnostic(
                 path,
