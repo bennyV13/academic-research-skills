@@ -68,3 +68,32 @@ def get_synthesis_subagent_invocation(prompt: str, model: str = "inherit") -> Di
         "Model": model,
         "Workspace": "branch",
     }
+
+
+def get_report_compiler_subagent_def() -> Dict[str, Any]:
+    """Return dictionary matching define_subagent parameters for report-compiler-agent."""
+    meta, prompt = load_agent_spec("report-compiler-agent.md")
+    return {
+        "name": meta.get("name", "report-compiler-agent"),
+        "description": meta.get(
+            "description",
+            "Transforms research findings and section plans into polished APA 7.0 academic manuscripts and reports",
+        ),
+        "system_prompt": prompt,
+        "enable_write_tools": True,
+        "enable_subagent_tools": False,
+        "enable_mcp_tools": False,
+    }
+
+
+def get_report_compiler_subagent_invocation(prompt: str, model: str = "inherit") -> Dict[str, Any]:
+    """Return invocation dictionary for invoke_subagent with isolated workspace."""
+    meta, _ = load_agent_spec("report-compiler-agent.md")
+    return {
+        "TypeName": meta.get("name", "report-compiler-agent"),
+        "Role": "APA 7.0 Report Compiler",
+        "Prompt": prompt,
+        "Model": model,
+        "Workspace": "branch",
+    }
+

@@ -1,12 +1,12 @@
 {
   "version": "1.0.0",
-  "last_updated": "2026-09-18T15:35:00+03:00",
+  "last_updated": "2026-09-18T16:20:00+03:00",
   "summary": {
     "total": 27,
-    "pending": 20,
+    "pending": 14,
     "in_progress": 0,
     "adapted": 0,
-    "validated": 7
+    "validated": 13
   },
   "assets": [
     {
@@ -77,16 +77,16 @@
       "category": "skill",
       "source_path": "academic-paper/SKILL.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/academic-paper/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "03",
       "notes": "Socratic paper planning, drafting, and APA 7.0 formatting"
     },
     {
       "id": "report-compiler-agent",
       "category": "agent",
-      "source_path": "agents/report_compiler_agent.md",
-      "target_path": ".agents/plugins/academic-research-skills/agents/report_compiler_agent.md",
-      "status": "PENDING",
+      "source_path": "deep-research/agents/report_compiler_agent.md",
+      "target_path": ".agents/plugins/academic-research-skills/agents/report-compiler-agent.md",
+      "status": "VALIDATED",
       "ticket": "03",
       "notes": "Academic report drafting and section compiler subagent"
     },
@@ -95,7 +95,7 @@
       "category": "command",
       "source_path": "commands/ars-plan.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-plan/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "03",
       "notes": "Socratic chapter-by-chapter paper planning"
     },
@@ -104,7 +104,7 @@
       "category": "command",
       "source_path": "commands/ars-outline.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-outline/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "03",
       "notes": "Paper outline generator"
     },
@@ -113,7 +113,7 @@
       "category": "command",
       "source_path": "commands/ars-abstract.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-abstract/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "03",
       "notes": "Academic abstract generator"
     },
@@ -122,7 +122,7 @@
       "category": "command",
       "source_path": "commands/ars-format-convert.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-format-convert/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "03",
       "notes": "Markdown to APA DOCX / PDF format conversion"
     },
