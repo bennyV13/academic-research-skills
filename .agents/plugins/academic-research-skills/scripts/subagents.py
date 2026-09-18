@@ -30,10 +30,21 @@ def load_agent_spec(filename: str) -> tuple[Dict[str, Any], str]:
             line_str = line.strip()
             if ":" in line_str and not line_str.startswith("#"):
                 k, v = line_str.split(":", 1)
-                clean_v = v.strip().strip('"').strip("'")
+                # Strip inline comments and quotes
+                clean_v = v.split("#")[0].strip().strip('"').strip("'")
                 meta[k.strip()] = clean_v
         return meta, prompt.strip()
     return {}, content.strip()
+
+
+def parse_bool_meta(meta: Dict[str, Any], key: str, default: bool = False) -> bool:
+    """Parse a boolean metadata flag cleanly from frontmatter key."""
+    val = meta.get(key)
+    if val is None:
+        return default
+    if isinstance(val, bool):
+        return val
+    return str(val).split("#")[0].strip().lower() in ("true", "1", "yes")
 
 
 def load_agent_prompt(filename: str) -> str:
@@ -52,9 +63,9 @@ def get_synthesis_subagent_def() -> Dict[str, Any]:
             "Integrates findings across sources, resolves evidence conflicts, and maps knowledge gaps",
         ),
         "system_prompt": prompt,
-        "enable_write_tools": meta.get("enable_write_tools", "true").lower() == "true",
-        "enable_subagent_tools": meta.get("enable_subagent_tools", "false").lower() == "true",
-        "enable_mcp_tools": meta.get("enable_mcp_tools", "false").lower() == "true",
+        "enable_write_tools": parse_bool_meta(meta, "enable_write_tools", default=True),
+        "enable_subagent_tools": parse_bool_meta(meta, "enable_subagent_tools", default=False),
+        "enable_mcp_tools": parse_bool_meta(meta, "enable_mcp_tools", default=False),
     }
 
 
@@ -80,9 +91,9 @@ def get_report_compiler_subagent_def() -> Dict[str, Any]:
             "Transforms research findings and section plans into polished APA 7.0 academic manuscripts and reports",
         ),
         "system_prompt": prompt,
-        "enable_write_tools": meta.get("enable_write_tools", "true").lower() == "true",
-        "enable_subagent_tools": meta.get("enable_subagent_tools", "false").lower() == "true",
-        "enable_mcp_tools": meta.get("enable_mcp_tools", "false").lower() == "true",
+        "enable_write_tools": parse_bool_meta(meta, "enable_write_tools", default=True),
+        "enable_subagent_tools": parse_bool_meta(meta, "enable_subagent_tools", default=False),
+        "enable_mcp_tools": parse_bool_meta(meta, "enable_mcp_tools", default=False),
     }
 
 
@@ -108,9 +119,9 @@ def get_peer_reviewer_subagent_def() -> Dict[str, Any]:
             "Simulates rigorous double-blind peer review across five dimensions, flagging soundness and empirical gaps",
         ),
         "system_prompt": prompt,
-        "enable_write_tools": meta.get("enable_write_tools", "true").lower() == "true",
-        "enable_subagent_tools": meta.get("enable_subagent_tools", "false").lower() == "true",
-        "enable_mcp_tools": meta.get("enable_mcp_tools", "false").lower() == "true",
+        "enable_write_tools": parse_bool_meta(meta, "enable_write_tools", default=True),
+        "enable_subagent_tools": parse_bool_meta(meta, "enable_subagent_tools", default=False),
+        "enable_mcp_tools": parse_bool_meta(meta, "enable_mcp_tools", default=False),
     }
 
 
@@ -136,9 +147,9 @@ def get_editorial_synthesizer_subagent_def() -> Dict[str, Any]:
             "Synthesizes multi-perspective reviewer reports into unified editorial decisions and revision roadmaps",
         ),
         "system_prompt": prompt,
-        "enable_write_tools": meta.get("enable_write_tools", "true").lower() == "true",
-        "enable_subagent_tools": meta.get("enable_subagent_tools", "false").lower() == "true",
-        "enable_mcp_tools": meta.get("enable_mcp_tools", "false").lower() == "true",
+        "enable_write_tools": parse_bool_meta(meta, "enable_write_tools", default=True),
+        "enable_subagent_tools": parse_bool_meta(meta, "enable_subagent_tools", default=False),
+        "enable_mcp_tools": parse_bool_meta(meta, "enable_mcp_tools", default=False),
     }
 
 
@@ -164,9 +175,9 @@ def get_revision_coach_subagent_def() -> Dict[str, Any]:
             "Parses reviewer comments, plans revision strategies, and audits rebuttal response drafts",
         ),
         "system_prompt": prompt,
-        "enable_write_tools": meta.get("enable_write_tools", "true").lower() == "true",
-        "enable_subagent_tools": meta.get("enable_subagent_tools", "false").lower() == "true",
-        "enable_mcp_tools": meta.get("enable_mcp_tools", "false").lower() == "true",
+        "enable_write_tools": parse_bool_meta(meta, "enable_write_tools", default=True),
+        "enable_subagent_tools": parse_bool_meta(meta, "enable_subagent_tools", default=False),
+        "enable_mcp_tools": parse_bool_meta(meta, "enable_mcp_tools", default=False),
     }
 
 

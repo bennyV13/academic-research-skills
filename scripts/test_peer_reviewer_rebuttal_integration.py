@@ -311,6 +311,138 @@ Reviewers agree the core approach is novel, but significant methodological and e
             self.assertIn("**Coverage Rate**: 100%", read_audit)
             self.assertIn("VERIFIED", read_audit)
 
+    def test_subagent_capability_parsing_with_comments(self):
+        """Verify parse_bool_meta and load_agent_spec handle inline comments and boolean variants."""
+        from subagents import parse_bool_meta  # type: ignore
+
+        meta_with_comments = {
+            "enable_write_tools": "true # inline comment describing write permission",
+            "enable_subagent_tools": "0 # numeric false",
+            "enable_mcp_tools": "false",
+            "custom_flag": "yes # affirmative",
+        }
+        self.assertTrue(parse_bool_meta(meta_with_comments, "enable_write_tools", default=False))
+        self.assertFalse(parse_bool_meta(meta_with_comments, "enable_subagent_tools", default=True))
+        self.assertFalse(parse_bool_meta(meta_with_comments, "enable_mcp_tools", default=True))
+        self.assertTrue(parse_bool_meta(meta_with_comments, "custom_flag", default=False))
+        self.assertTrue(parse_bool_meta({}, "non_existent_key", default=True))
+
+    def test_devils_advocate_critical_issue_blocking(self):
+        """Verify Devil's Advocate CRITICAL issues trigger escalation and block silent Accept."""
+        # Simulated scenario: Manuscript meets all standard dimensions (Accept eligible),
+        # but Devil's Advocate identifies a CRITICAL unaddressed confounder (C1).
+        manuscript_scores = {
+            "Originality": "EXCEEDS",
+            "Methodological Rigor": "MEETS",
+            "Evidence Sufficiency": "MEETS",
+            "Argument Coherence": "MEETS",
+            "Writing Quality": "MEETS",
+        }
+        da_critical_findings = [
+            {"id": "C1", "status": "VALIDATED", "issue": "Data leakage between training and evaluation splits."},
+        ]
+
+        def arbitrate_decision(scores: Dict[str, str], da_findings: List[Dict[str, str]]) -> Dict[str, Any]:
+            # Initial mechanical decision based on standard scores
+            base_decision = "Accept"
+            if any(s == "DOES_NOT_MEET" for s in scores.values()):
+                base_decision = "Reject"
+            elif any(s == "PARTLY_MEETS" for s in scores.values()):
+                base_decision = "Major Revision"
+
+            # Check Devil's Advocate CRITICAL adjudications
+            escalation_marker = None
+            final_status = base_decision
+            blocking_da = [f for f in da_findings if f["status"] in ("VALIDATED", "UNRESOLVED")]
+            if base_decision == "Accept" and blocking_da:
+                count = len(blocking_da)
+                escalation_marker = f"[DA-CRITICAL-VS-ACCEPT: {count} validated/unresolved]"
+                final_status = "ESCALATED_TO_USER"
+
+            return {
+                "base_decision": base_decision,
+                "final_status": final_status,
+                "escalation_marker": escalation_marker,
+            }
+
+        result = arbitrate_decision(manuscript_scores, da_critical_findings)
+        self.assertEqual(result["base_decision"], "Accept")
+        self.assertEqual(result["final_status"], "ESCALATED_TO_USER")
+        self.assertEqual(result["escalation_marker"], "[DA-CRITICAL-VS-ACCEPT: 1 validated/unresolved]")
+
+    def test_rebuttal_audit_tone_and_evasion_detection(self):
+        """Verify rebuttal audit flags defensive, dismissive, or evasive tone risks."""
+        responses = [
+            {
+                "target_id": "C1",
+                "text": "The reviewer clearly misunderstood our experimental setup because they failed to read Section 2.",
+                "has_manuscript_anchor": False,
+            },
+            {
+                "target_id": "C2",
+                "text": "We thank the reviewer for this constructive observation. We have revised Section 3.1 (lines 88-95) to clarify the baseline parameters.",
+                "has_manuscript_anchor": True,
+            },
+        ]
+
+        def screen_tone(resp_list: List[Dict[str, Any]]) -> List[Dict[str, str]]:
+            defensive_patterns = [
+                re.compile(r"clearly\s+misunderstood", re.IGNORECASE),
+                re.compile(r"failed\s+to\s+(read|understand|grasp)", re.IGNORECASE),
+                re.compile(r"obviously\s+wrong", re.IGNORECASE),
+            ]
+            flags = []
+            for r in resp_list:
+                for pat in defensive_patterns:
+                    if pat.search(r["text"]):
+                        flags.append({
+                            "target_id": r["target_id"],
+                            "risk": "[TONE_RISK]",
+                            "matched_phrase": pat.pattern,
+                        })
+                        break
+            return flags
+
+        tone_risks = screen_tone(responses)
+        self.assertEqual(len(tone_risks), 1)
+        self.assertEqual(tone_risks[0]["target_id"], "C1")
+        self.assertEqual(tone_risks[0]["risk"], "[TONE_RISK]")
+
+    def test_rebuttal_audit_boundary_and_orphan_handling(self):
+        """Verify rebuttal audit handles empty critique sets and orphaned author responses."""
+        # 1. Empty critique set
+        critiques: List[Dict[str, str]] = []
+        responses: List[Dict[str, Any]] = []
+
+        def audit_rebuttal_with_orphans(critique_list: List[Dict[str, str]], response_list: List[Dict[str, Any]]) -> Dict[str, Any]:
+            critique_ids = {c["id"] for c in critique_list}
+            resp_ids = {r["target_id"] for r in response_list}
+
+            orphaned = [rid for rid in resp_ids if rid not in critique_ids]
+            unaddressed = [cid for cid in critique_ids if cid not in resp_ids]
+
+            coverage = 1.0 if not critique_ids else (len(critique_ids) - len(unaddressed)) / len(critique_ids)
+            return {
+                "coverage": coverage,
+                "unaddressed": unaddressed,
+                "orphaned": orphaned,
+            }
+
+        empty_result = audit_rebuttal_with_orphans(critiques, responses)
+        self.assertEqual(empty_result["coverage"], 1.0)
+        self.assertEqual(len(empty_result["unaddressed"]), 0)
+        self.assertEqual(len(empty_result["orphaned"]), 0)
+
+        # 2. Orphaned response (author response references non-existent reviewer comment ID C99)
+        c_list = [{"id": "C1", "text": "Comment 1"}]
+        r_list = [
+            {"target_id": "C1", "text": "Response 1"},
+            {"target_id": "C99", "text": "Response to nonexistent comment"},
+        ]
+        orphan_result = audit_rebuttal_with_orphans(c_list, r_list)
+        self.assertEqual(orphan_result["coverage"], 1.0)
+        self.assertEqual(orphan_result["orphaned"], ["C99"])
+
     def test_verify_agy_compatibility_plugin_clean(self):
         """Run verify_agy_compatibility on the entire plugin and confirm 0 errors."""
         diags = scan_path(PLUGIN_ROOT)
