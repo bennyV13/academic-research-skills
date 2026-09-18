@@ -35,6 +35,10 @@ INFRA_PROTECTED_GLOBS = [
     "hooks/*.sh",
     "plugin.json",
     ".claude-plugin/plugin.json",
+    "migration_ledger.json",
+    "**/migration_ledger.json",
+    "rules/*.md",
+    "**/rules/*.md",
     "**/ars_write_scope_guard*.py",
     "ars_write_scope_guard*.py",
     "**/ars_phase_scope_manifest.json",
@@ -167,14 +171,13 @@ def evaluate_agy_decision(
         return {"decision": "allow"}
 
     agents = (manifest or {}).get("agents", {})
-    # Normalize agent_type name: handle hyphens vs underscores (e.g. synthesis-agent vs synthesis_agent)
+    # Case-insensitive and hyphen-normalized agent lookup
+    norm_agent_map = {k.strip().lower().replace("-", "_"): k for k in agents}
     canonical_agent = None
     if agent_type:
-        alt_agent = agent_type.replace("-", "_")
-        if agent_type in agents:
-            canonical_agent = agent_type
-        elif alt_agent in agents:
-            canonical_agent = alt_agent
+        clean_type = str(agent_type).strip().lower().replace("-", "_")
+        if clean_type in norm_agent_map:
+            canonical_agent = norm_agent_map[clean_type]
 
     is_bucket_a = canonical_agent is not None
 
@@ -191,13 +194,13 @@ def evaluate_agy_decision(
         return {"decision": "allow"}
 
     # Structured write tools gating
-    raw_path = (
+    raw_val = (
         args.get("TargetFile")
         or args.get("target_file")
         or args.get("targetFile")
         or args.get("file_path")
     )
-    if not raw_path or not isinstance(raw_path, str):
+    if not raw_val or not isinstance(raw_val, str) or not raw_val.strip():
         return {
             "decision": "deny",
             "reason": (
@@ -205,6 +208,7 @@ def evaluate_agy_decision(
                 "— denying execution to avoid silent fail-open."
             ),
         }
+    raw_path = raw_val.strip()
 
     # Step 1: Infrastructure self-protection (plugin enforcement files)
     if _infra_protected_target(raw_path, cwd, plugin_root):

@@ -262,6 +262,75 @@ class TestAgyLifecycleHooksIntegration(unittest.TestCase):
             out_empty = json.loads(proc_empty.stdout)
             self.assertEqual(out_empty.get("decision"), "allow")
 
+    def test_case_insensitive_agent_type_normalization(self):
+        """Verify casing and whitespace variations in agent_type are strictly fenced."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            ws_root = tmpdir
+            # Cased agent types attempting out-of-scope write must STILL be denied!
+            cased_variations = [
+                "Synthesis-Agent",
+                "SYNTHESIS_AGENT",
+                "  synthesis-agent  ",
+                "Peer-Reviewer-Agent",
+                "PEER_REVIEWER_AGENT",
+            ]
+            for cased in cased_variations:
+                payload = {
+                    "toolCall": {
+                        "name": "write_to_file",
+                        "args": {
+                            "TargetFile": os.path.join(ws_root, "phase1_planning", "unauthorized.md"),
+                            "CodeContent": "Bypass attempt"
+                        }
+                    },
+                    "agent_type": cased,
+                    "workspacePaths": [ws_root],
+                }
+                decision = evaluate_agy_decision(payload, self.manifest, ws_root, str(PLUGIN_ROOT))
+                self.assertEqual(decision["decision"], "deny", f"Agent variation '{cased}' bypassed fence!")
+                self.assertIn("outside declared allowed_write_globs", decision["reason"])
+
+    def test_rules_and_migration_ledger_protection(self):
+        """Verify rules/AGENTS.md and migration_ledger.json are protected from tampering."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            ws_root = tmpdir
+            protected_files = [
+                str(PLUGIN_ROOT / "rules" / "AGENTS.md"),
+                str(PLUGIN_ROOT / "migration_ledger.json"),
+            ]
+            for p_file in protected_files:
+                payload = {
+                    "toolCall": {
+                        "name": "write_to_file",
+                        "args": {
+                            "TargetFile": p_file,
+                            "CodeContent": "malicious override"
+                        }
+                    },
+                    "workspacePaths": [ws_root],
+                }
+                decision = evaluate_agy_decision(payload, self.manifest, ws_root, str(PLUGIN_ROOT))
+                self.assertEqual(decision["decision"], "deny", f"Enforcement file {p_file} was not protected!")
+                self.assertIn("enforcement infrastructure", decision["reason"])
+
+    def test_target_file_whitespace_stripping(self):
+        """Verify TargetFile with leading/trailing whitespace is properly normalized."""
+        with tempfile.TemporaryDirectory() as tmpdir:
+            ws_root = tmpdir
+            payload = {
+                "toolCall": {
+                    "name": "write_to_file",
+                    "args": {
+                        "TargetFile": f"  {os.path.join(ws_root, 'phase3_analysis', 'valid.md')}  ",
+                        "CodeContent": "Clean"
+                    }
+                },
+                "agent_type": "synthesis_agent",
+                "workspacePaths": [ws_root],
+            }
+            decision = evaluate_agy_decision(payload, self.manifest, ws_root, str(PLUGIN_ROOT))
+            self.assertEqual(decision["decision"], "allow")
+
     def test_verify_agy_compatibility_clean(self):
         """Run verify_agy_compatibility across the plugin and confirm 0 errors."""
         diags = scan_path(PLUGIN_ROOT)

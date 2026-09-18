@@ -37,7 +37,18 @@ PY=$(find_python) || emit_allow_and_exit
 GUARD_OUT=$(printf '%s' "$PAYLOAD" | $PY "$GUARD" 2>/dev/null)
 GUARD_STATUS=$?
 
-if [ "$GUARD_STATUS" -eq 0 ] && [ -n "$GUARD_OUT" ]; then
+is_valid_decision_json() {
+    printf '%s' "$GUARD_OUT" | $PY -c '
+import sys, json
+try:
+    d = json.load(sys.stdin)
+    sys.exit(0 if isinstance(d, dict) and "decision" in d else 1)
+except Exception:
+    sys.exit(1)
+' >/dev/null 2>&1
+}
+
+if [ "$GUARD_STATUS" -eq 0 ] && [ -n "$GUARD_OUT" ] && is_valid_decision_json; then
     printf '%s\n' "$GUARD_OUT"
     exit 0
 fi
