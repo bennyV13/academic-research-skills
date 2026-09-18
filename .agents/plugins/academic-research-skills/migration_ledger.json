@@ -2,11 +2,11 @@
   "version": "1.0.0",
   "last_updated": "2026-09-18T16:20:00+03:00",
   "summary": {
-    "total": 27,
-    "pending": 14,
+    "total": 30,
+    "pending": 9,
     "in_progress": 0,
     "adapted": 0,
-    "validated": 13
+    "validated": 21
   },
   "assets": [
     {
@@ -131,16 +131,43 @@
       "category": "skill",
       "source_path": "academic-paper-reviewer/SKILL.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/academic-paper-reviewer/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "04",
       "notes": "Peer review panel, rubric evaluation, and rebuttal audit"
+    },
+    {
+      "id": "peer-reviewer-agent",
+      "category": "agent",
+      "source_path": "academic-paper/agents/peer_reviewer_agent.md",
+      "target_path": ".agents/plugins/academic-research-skills/agents/peer-reviewer-agent.md",
+      "status": "VALIDATED",
+      "ticket": "04",
+      "notes": "Simulated double-blind academic peer reviewer across five dimensions"
+    },
+    {
+      "id": "editorial-synthesizer-agent",
+      "category": "agent",
+      "source_path": "academic-paper-reviewer/agents/editorial_synthesizer_agent.md",
+      "target_path": ".agents/plugins/academic-research-skills/agents/editorial-synthesizer-agent.md",
+      "status": "VALIDATED",
+      "ticket": "04",
+      "notes": "Consolidates reviewer reports, consensus arbitration, and editorial decision"
+    },
+    {
+      "id": "revision-coach-agent",
+      "category": "agent",
+      "source_path": "academic-paper/agents/revision_coach_agent.md",
+      "target_path": ".agents/plugins/academic-research-skills/agents/revision-coach-agent.md",
+      "status": "VALIDATED",
+      "ticket": "04",
+      "notes": "Reviewer comment parser, revision planner, and rebuttal audit QA"
     },
     {
       "id": "cmd-ars-reviewer",
       "category": "command",
       "source_path": "commands/ars-reviewer.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-reviewer/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "04",
       "notes": "Simulated multi-reviewer panel execution"
     },
@@ -149,7 +176,7 @@
       "category": "command",
       "source_path": "commands/ars-revision.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-revision/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "04",
       "notes": "Post-review revision plan generator"
     },
@@ -158,7 +185,7 @@
       "category": "command",
       "source_path": "commands/ars-rebuttal-audit.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-rebuttal-audit/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "04",
       "notes": "Author rebuttal item-by-item consistency audit"
     },
@@ -167,7 +194,7 @@
       "category": "command",
       "source_path": "commands/ars-revision-coach.md",
       "target_path": ".agents/plugins/academic-research-skills/skills/ars-revision-coach/SKILL.md",
-      "status": "PENDING",
+      "status": "VALIDATED",
       "ticket": "04",
       "notes": "Reviewer feedback revision coaching"
     },

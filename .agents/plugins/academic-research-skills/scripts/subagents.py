@@ -97,3 +97,88 @@ def get_report_compiler_subagent_invocation(prompt: str, model: str = "inherit")
         "Workspace": "branch",
     }
 
+
+def get_peer_reviewer_subagent_def() -> Dict[str, Any]:
+    """Return dictionary matching define_subagent parameters for peer-reviewer-agent."""
+    meta, prompt = load_agent_spec("peer-reviewer-agent.md")
+    return {
+        "name": meta.get("name", "peer-reviewer-agent"),
+        "description": meta.get(
+            "description",
+            "Simulates rigorous double-blind peer review across five dimensions, flagging soundness and empirical gaps",
+        ),
+        "system_prompt": prompt,
+        "enable_write_tools": meta.get("enable_write_tools", "true").lower() == "true",
+        "enable_subagent_tools": meta.get("enable_subagent_tools", "false").lower() == "true",
+        "enable_mcp_tools": meta.get("enable_mcp_tools", "false").lower() == "true",
+    }
+
+
+def get_peer_reviewer_subagent_invocation(prompt: str, model: str = "inherit") -> Dict[str, Any]:
+    """Return invocation dictionary for invoke_subagent with isolated workspace."""
+    meta, _ = load_agent_spec("peer-reviewer-agent.md")
+    return {
+        "TypeName": meta.get("name", "peer-reviewer-agent"),
+        "Role": "Academic Peer Reviewer",
+        "Prompt": prompt,
+        "Model": model,
+        "Workspace": "branch",
+    }
+
+
+def get_editorial_synthesizer_subagent_def() -> Dict[str, Any]:
+    """Return dictionary matching define_subagent parameters for editorial-synthesizer-agent."""
+    meta, prompt = load_agent_spec("editorial-synthesizer-agent.md")
+    return {
+        "name": meta.get("name", "editorial-synthesizer-agent"),
+        "description": meta.get(
+            "description",
+            "Synthesizes multi-perspective reviewer reports into unified editorial decisions and revision roadmaps",
+        ),
+        "system_prompt": prompt,
+        "enable_write_tools": meta.get("enable_write_tools", "true").lower() == "true",
+        "enable_subagent_tools": meta.get("enable_subagent_tools", "false").lower() == "true",
+        "enable_mcp_tools": meta.get("enable_mcp_tools", "false").lower() == "true",
+    }
+
+
+def get_editorial_synthesizer_subagent_invocation(prompt: str, model: str = "inherit") -> Dict[str, Any]:
+    """Return invocation dictionary for invoke_subagent with isolated workspace."""
+    meta, _ = load_agent_spec("editorial-synthesizer-agent.md")
+    return {
+        "TypeName": meta.get("name", "editorial-synthesizer-agent"),
+        "Role": "Editorial Decision Synthesizer",
+        "Prompt": prompt,
+        "Model": model,
+        "Workspace": "branch",
+    }
+
+
+def get_revision_coach_subagent_def() -> Dict[str, Any]:
+    """Return dictionary matching define_subagent parameters for revision-coach-agent."""
+    meta, prompt = load_agent_spec("revision-coach-agent.md")
+    return {
+        "name": meta.get("name", "revision-coach-agent"),
+        "description": meta.get(
+            "description",
+            "Parses reviewer comments, plans revision strategies, and audits rebuttal response drafts",
+        ),
+        "system_prompt": prompt,
+        "enable_write_tools": meta.get("enable_write_tools", "true").lower() == "true",
+        "enable_subagent_tools": meta.get("enable_subagent_tools", "false").lower() == "true",
+        "enable_mcp_tools": meta.get("enable_mcp_tools", "false").lower() == "true",
+    }
+
+
+def get_revision_coach_subagent_invocation(prompt: str, model: str = "inherit") -> Dict[str, Any]:
+    """Return invocation dictionary for invoke_subagent with isolated workspace."""
+    meta, _ = load_agent_spec("revision-coach-agent.md")
+    return {
+        "TypeName": meta.get("name", "revision-coach-agent"),
+        "Role": "Rebuttal and Revision Coach",
+        "Prompt": prompt,
+        "Model": model,
+        "Workspace": "branch",
+    }
+
+
