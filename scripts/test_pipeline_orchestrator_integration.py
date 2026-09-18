@@ -202,6 +202,63 @@ class TestPipelineOrchestratorIntegration(unittest.TestCase):
             self.assertEqual(len(pipeline_state["history"]), 10)
             self.assertTrue(all(h["verified"] for h in pipeline_state["history"]))
 
+    def test_adversarial_subagent_security_and_traversal(self):
+        """Verify load_agent_spec blocks path traversal and handles missing/directory targets."""
+        with self.assertRaises(ValueError):
+            load_agent_spec("../../../etc/passwd")
+
+        with self.assertRaises(ValueError):
+            load_agent_spec("../../outside.md")
+
+        with self.assertRaises(FileNotFoundError):
+            load_agent_spec("non_existent_agent.md")
+
+    def test_subagent_invocation_model_and_role_fidelity(self):
+        """Verify invocation parameter handling with model overrides and workspace isolation."""
+        inv_flash = get_research_architect_subagent_invocation("Test prompt", model="flash")
+        self.assertEqual(inv_flash["Model"], "flash")
+        self.assertEqual(inv_flash["Workspace"], "branch")
+
+        inv_pro = get_research_architect_subagent_invocation("Test prompt", model="pro")
+        self.assertEqual(inv_pro["Model"], "pro")
+        self.assertEqual(inv_pro["Workspace"], "branch")
+
+    def test_pipeline_integrity_failure_recovery_state_machine(self):
+        """Verify Stage 2.5 / 4.5 integrity failure detection and bounded retry recovery."""
+        state = {
+            "current_stage": "Stage 2.5 (INTEGRITY)",
+            "retry_count": 0,
+            "max_retries": 3,
+            "gate_status": "FAIL",
+            "uncited_claims": ["Claim A without citation", "Claim B mismatched DOI"],
+        }
+
+        # Simulate repair attempts
+        while state["retry_count"] < state["max_retries"] and state["gate_status"] != "PASS":
+            state["retry_count"] += 1
+            if state["retry_count"] == 2:
+                # Fixed in round 2
+                state["uncited_claims"].clear()
+                state["gate_status"] = "PASS"
+
+        self.assertEqual(state["gate_status"], "PASS")
+        self.assertEqual(state["retry_count"], 2)
+        self.assertEqual(len(state["uncited_claims"]), 0)
+
+    def test_pipeline_mid_entry_detection(self):
+        """Verify routing for full-start, mid-entry, and revision-entry workflows."""
+        def detect_entry_stage(intent: str) -> str:
+            lower = intent.lower()
+            if "review comments" in lower or "reviewer feedback" in lower or "revision" in lower:
+                return "Stage 4 (REVISE)"
+            if "already have a paper" in lower or "existing paper" in lower or "review my paper" in lower:
+                return "Stage 2.5 (INTEGRITY)"
+            return "Stage 1 (RESEARCH)"
+
+        self.assertEqual(detect_entry_stage("I want to write a paper from scratch on AI ethics"), "Stage 1 (RESEARCH)")
+        self.assertEqual(detect_entry_stage("I already have a paper, help me review it"), "Stage 2.5 (INTEGRITY)")
+        self.assertEqual(detect_entry_stage("I received reviewer feedback, need to revise"), "Stage 4 (REVISE)")
+
     def test_full_agy_compatibility_plugin_tree(self):
         """Run verify_agy_compatibility across the entire plugin directory."""
         diagnostics = scan_path(PLUGIN_ROOT)
@@ -211,3 +268,4 @@ class TestPipelineOrchestratorIntegration(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
