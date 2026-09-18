@@ -22,8 +22,12 @@ Zero-cost routing. Supports comma-batched prefixes. Response is a JSON array of 
 
 Verified 2026-07-27:
 
+```bash
+curl -s 'https://doi.org/doiRA/10.3760,10.3969,10.13209,10.1360'
 ```
-$ curl -s 'https://doi.org/doiRA/10.3760,10.3969,10.13209,10.1360'
+
+Output:
+```json
 [{"DOI":"10.3760","RA":"ISTIC"},{"DOI":"10.3969","RA":"ISTIC"},
  {"DOI":"10.13209","RA":"CNKI"},{"DOI":"10.1360","RA":"Crossref"}]
 ```

@@ -38,12 +38,18 @@ class TestDeepResearchSynthesisIntegration(unittest.TestCase):
         self.assertTrue(subagent_def["enable_write_tools"])
         self.assertFalse(subagent_def["enable_subagent_tools"])
         self.assertIn("Synthesis Agent", subagent_def["system_prompt"])
+        self.assertIn("send_message", subagent_def["system_prompt"])
 
         invocation = get_synthesis_subagent_invocation("Synthesize findings on AI in education")
         self.assertEqual(invocation["TypeName"], "synthesis-agent")
         self.assertEqual(invocation["Role"], "Evidence Synthesis Specialist")
         self.assertEqual(invocation["Model"], "inherit")
-        self.assertEqual(invocation["Workspace"], "inherit")
+        self.assertEqual(invocation["Workspace"], "branch")
+
+    def test_subagent_traversal_protection(self) -> None:
+        from scripts.verify_agy_compatibility import scan_path
+        with self.assertRaises(ValueError):
+            _subagents.load_agent_prompt("../../../../README.md")
 
     def test_compatibility_clean(self) -> None:
         target_skills = [
@@ -51,6 +57,7 @@ class TestDeepResearchSynthesisIntegration(unittest.TestCase):
             self.plugin_dir / "agents" / "synthesis-agent.md",
             self.plugin_dir / "skills" / "ars-lit-review",
             self.plugin_dir / "skills" / "ars-cache-invalidate",
+            self.plugin_dir / "migration_ledger.json",
         ]
         for target in target_skills:
             diags = scan_path(target)

@@ -357,3 +357,9 @@ When a claim is backed by the scholar's OWN experiment (not a literature citatio
 ```
 
 - **R-CIM-D (experiment emission):** Emit `planned_experiment_ids` ONLY when an experiment in the passport's `experiment_provenance[]` backs the claim. It is **optional-absent** — omit it entirely on literature-only / definitional / theoretical / normative claims (never emit an empty array; `minItems` is 1). The values are passport-local `experiment_id`s frozen at Stage 1 intake — reference them exactly as the scholar entered them; do NOT invent ids or rename. A claim carrying `planned_experiment_ids` MUST have `intended_evidence_kind: "empirical"` (EP-INV-3); an experiment is a source of empirical evidence, not a new evidence kind (there is NO `experimental` value — D2). **Mixed evidence is allowed:** a claim may carry BOTH `planned_refs` (literature) AND `planned_experiment_ids` (own experiment) — both back the empirical claim, and the gate audits each path. You do NOT compute the experiment alignment verdict (that is the integrity gate's `experiment_alignment_results[]`, #260); you only pre-commit the join.
+
+## Antigravity Communication Protocol
+
+When running as an autonomous Antigravity subagent:
+1. Save your completed synthesis deliverables strictly within Phase 3 scope (`phase3_analysis/synthesis_report.md`) using `write_to_file`.
+2. Communicate results back to the caller using `send_message` with `Recipient="parent"`, providing an executive summary of the synthesized evidence, resolved contradictions, and key literature gaps.

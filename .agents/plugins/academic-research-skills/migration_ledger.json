@@ -2,11 +2,11 @@
   "version": "1.0.0",
   "last_updated": "2026-09-18T15:35:00+03:00",
   "summary": {
-    "total": 26,
+    "total": 27,
     "pending": 20,
     "in_progress": 0,
     "adapted": 0,
-    "validated": 6
+    "validated": 7
   },
   "assets": [
     {
@@ -26,6 +26,15 @@
       "status": "VALIDATED",
       "ticket": "01",
       "notes": "Linter enforcing AGY YAML frontmatter, tool references, single-line commands, and hook contracts"
+    },
+    {
+      "id": "subagents-helper",
+      "category": "tool",
+      "source_path": "N/A",
+      "target_path": ".agents/plugins/academic-research-skills/scripts/subagents.py",
+      "status": "VALIDATED",
+      "ticket": "02",
+      "notes": "Programmatic helper for Antigravity subagent definition and invocation"
     },
     {
       "id": "deep-research-skill",
