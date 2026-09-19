@@ -1,0 +1,79 @@
+name: Weekly Upstream Sync
+
+on:
+  schedule:
+    # Runs every Monday at 03:00 UTC
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+    # Allows manual trigger from GitHub Actions UI
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  sync:
+    name: Sync with Upstream
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check and merge upstream changes
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git remote add upstream https://github.com/Imbad0202/academic-research-skills.git || git remote set-url upstream https://github.com/Imbad0202/academic-research-skills.git
+          git fetch upstream main
+
+          # Check if there are new commits in upstream/main
+          NEW_COMMITS=$(git log HEAD..upstream/main --oneline)
+          if [ -z "$NEW_COMMITS" ]; then
+            echo "Fork is already up to date with upstream/main. Nothing to do."
+            exit 0
+          fi
+
+          echo "New commits detected in upstream:"
+          echo "$NEW_COMMITS"
+
+          # Attempt merge
+          if ! git merge upstream/main -m "chore(sync): merge upstream/main into main [skip ci]"; then
+            echo "Merge conflict encountered. Aborting merge and opening issue..."
+            git merge --abort
+            gh issue create \
+              --title "⚠️ Upstream Sync Conflict Detected ($(date -u +%Y-%m-%d))" \
+              --body "Automated weekly sync with \`Imbad0202/academic-research-skills\` encountered merge conflicts against \`main\` that could not be automatically resolved.
+
+### Upstream Commits:
+\`\`\`
+$NEW_COMMITS
+\`\`\`
+
+Please fetch upstream and resolve conflicts manually."
+            exit 1
+          fi
+
+          # Verify AGY compatibility on merged codebase
+          echo "Running Antigravity compatibility tests..."
+          python3 scripts/verify_agy_compatibility.py --path .agents/plugins/academic-research-skills
+
+          # Push merged commits to origin
+          git push origin main
+          echo "Successfully merged and pushed upstream updates to main."
