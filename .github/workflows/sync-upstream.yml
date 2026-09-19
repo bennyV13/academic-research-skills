@@ -5,7 +5,6 @@ on:
     # Runs every Monday at 03:00 UTC
     - cron: '0 3 * * 1'
   workflow_dispatch:
-    # Allows manual trigger from GitHub Actions UI
 
 concurrency:
   group: sync-upstream
@@ -57,16 +56,14 @@ jobs:
           if ! git merge upstream/main -m "chore(sync): merge upstream/main into main [skip ci]"; then
             echo "Merge conflict encountered. Aborting merge and opening issue..."
             git merge --abort
+            cat << 'EOF' > /tmp/sync_issue.md
+          Automated weekly sync with `Imbad0202/academic-research-skills` encountered merge conflicts against `main` that could not be automatically resolved.
+
+          Please fetch upstream and resolve conflicts manually.
+          EOF
             gh issue create \
               --title "⚠️ Upstream Sync Conflict Detected ($(date -u +%Y-%m-%d))" \
-              --body "Automated weekly sync with \`Imbad0202/academic-research-skills\` encountered merge conflicts against \`main\` that could not be automatically resolved.
-
-### Upstream Commits:
-\`\`\`
-$NEW_COMMITS
-\`\`\`
-
-Please fetch upstream and resolve conflicts manually."
+              --body-file /tmp/sync_issue.md
             exit 1
           fi
 
