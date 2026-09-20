@@ -19,3 +19,10 @@ A contract-audited suite of skills for academic research, paper authoring, peer 
 - **Tool Calling**: Native Antigravity tools (`run_command`, `write_to_file`, `replace_file_content`, `view_file`, `grep_search`, `find_by_name`, `invoke_subagent`, `send_message`).
 - **Shell Commands**: All shell commands must be provided as single-line code blocks without line numbers or line breaks to enable easy copying and execution.
 - **Subagents**: Specialized agents (`synthesis-agent`, `report-compiler-agent`, `research-architect-agent`) run in isolated workspaces (`"branch"`) and communicate back to callers via `send_message`.
+
+## ARS Deliverable & Report Placement
+
+- **Canonical Location**: All completed academic reports, literature reviews, synthesis documents, and compiled manuscripts must be placed under:
+  `reports/ars/YYYY-MM-DD/NN_<slug>.<ext>`
+  (e.g. `reports/ars/2026-09-20/01_literature_review.md`, `reports/ars/2026-09-20/02_apa7_manuscript.md`).
+- **Deterministic Allocation**: The next sequence number for any given date is dynamically allocated via `scripts/allocate_report_path.py` (`python3 scripts/allocate_report_path.py --title "<title>" --json`). The platform PreToolUse hook (`ars-report-allocator`) automatically normalizes and validates this dated, sequentially numbered destination.

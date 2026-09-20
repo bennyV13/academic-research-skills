@@ -12,5 +12,19 @@
         ]
       }
     ]
+  },
+  "ars-report-allocator": {
+    "PreToolUse": [
+      {
+        "matcher": "write_to_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "./hooks/run_report_allocator_agy.sh",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
   }
 }

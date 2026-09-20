@@ -40,6 +40,8 @@ INFRA_PROTECTED_GLOBS = [
     "rules/*.md",
     "**/rules/*.md",
     "**/ars_write_scope_guard*.py",
+    "**/allocate_report_path.py",
+    "allocate_report_path.py",
     "ars_write_scope_guard*.py",
     "**/ars_phase_scope_manifest.json",
     "ars_phase_scope_manifest.json",
