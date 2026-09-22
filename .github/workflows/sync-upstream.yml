@@ -52,9 +52,19 @@ jobs:
           echo "New commits detected in upstream:"
           echo "$NEW_COMMITS"
 
-          # Attempt merge
-          if ! git merge upstream/main -m "chore(sync): merge upstream/main into main [skip ci]"; then
-            echo "Merge conflict encountered. Aborting merge and opening issue..."
+          # Attempt merge without auto-committing
+          git merge --no-commit --no-ff upstream/main || true
+
+          # Discard upstream workflow changes and keep local workflows intact
+          git reset HEAD -- .github/workflows
+          git checkout HEAD -- .github/workflows
+          git clean -fd .github/workflows
+
+          # Check if there are unresolved merge conflicts in non-workflow files
+          UNRESOLVED=$(git diff --name-only --diff-filter=U)
+          if [ -n "$UNRESOLVED" ]; then
+            echo "Merge conflict encountered in non-workflow files. Aborting merge and opening issue..."
+            echo "$UNRESOLVED"
             git merge --abort
             cat << 'EOF' > /tmp/sync_issue.md
           Automated weekly sync with `Imbad0202/academic-research-skills` encountered merge conflicts against `main` that could not be automatically resolved.
@@ -66,6 +76,9 @@ jobs:
               --body-file /tmp/sync_issue.md
             exit 1
           fi
+
+          # Commit merged upstream changes (with local workflows preserved)
+          git commit -m "chore(sync): merge upstream/main into main (preserving workflows) [skip ci]"
 
           # Verify AGY compatibility on merged codebase
           echo "Running Antigravity compatibility tests..."
